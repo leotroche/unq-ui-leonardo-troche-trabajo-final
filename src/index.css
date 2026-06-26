@@ -1,0 +1,12 @@
+@import '@picocss/pico';
+
+body {
+  display: grid;
+  min-height: 100dvh;
+}
+
+main {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
