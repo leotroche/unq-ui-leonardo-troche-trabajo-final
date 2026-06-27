@@ -1,7 +1,69 @@
+import { useReducer, useState } from 'react'
+
+import { gameReducer, initialState } from './reducers/gameReducer'
+import { followsChain, isWordUsed } from './utils/gameValidations'
+import { normalizeWord } from './utils/normalizeWord'
+
 export function App() {
+  const [game, dispatch] = useReducer(gameReducer, initialState)
+  const [value, setValue] = useState('')
+
+  const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
+    evt.preventDefault()
+
+    const word = normalizeWord(value)
+
+    if (isWordUsed(word, game.words)) {
+      dispatch({ type: 'SET_ERROR', payload: 'USED' })
+      return
+    }
+
+    if (!followsChain(word, game.words)) {
+      dispatch({ type: 'SET_ERROR', payload: 'CHAIN' })
+      return
+    }
+
+    dispatch({ type: 'ADD_WORD', payload: word })
+    setValue('')
+  }
+
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(evt.target.value)
+  }
+
   return (
     <main className="container">
       <h1>Palabras Encadenadas</h1>
+
+      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '800px' }}>
+        <input
+          name="word"
+          type="text"
+          placeholder="Escribe una palabra"
+          value={value}
+          onChange={handleChange}
+          autoFocus
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          aria-describedby="word-helper"
+          aria-invalid={game.error ? 'true' : undefined}
+        />
+
+        {game.error && (
+          <small id="word-helper" style={{ minHeight: '1.5rem' }}>
+            {errorMessages[game.error]}
+          </small>
+        )}
+      </form>
     </main>
   )
 }
+
+const errorMessages = {
+  USED: 'Palabra repetida',
+  CHAIN: 'No encadena con la anterior',
+  NOT_FOUND: 'Palabra no encontrada',
+  NETWORK: 'Error de red. Intenta nuevamente.',
+} as const
