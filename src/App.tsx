@@ -1,12 +1,14 @@
 import { useReducer, useState } from 'react'
 
 import { gameReducer, initialState } from './reducers/gameReducer'
+import { checkWordExists } from './services/wordService'
 import { followsChain, isWordUsed } from './utils/gameValidations'
 import { normalizeWord } from './utils/normalizeWord'
 
 export function App() {
   const [game, dispatch] = useReducer(gameReducer, initialState)
   const [value, setValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -23,8 +25,23 @@ export function App() {
       return
     }
 
-    dispatch({ type: 'ADD_WORD', payload: word })
-    setValue('')
+    setIsLoading(true)
+
+    try {
+      const exists = await checkWordExists(word)
+
+      if (!exists) {
+        dispatch({ type: 'SET_ERROR', payload: 'NOT_FOUND' })
+        return
+      }
+
+      dispatch({ type: 'ADD_WORD', payload: word })
+      setValue('')
+    } catch {
+      dispatch({ type: 'SET_ERROR', payload: 'NETWORK' })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +73,10 @@ export function App() {
             {errorMessages[game.error]}
           </small>
         )}
+
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? 'Validando...' : 'Enviar'}
+        </button>
       </form>
     </main>
   )
