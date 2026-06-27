@@ -2,6 +2,7 @@ type GameError = 'USED' | 'CHAIN' | 'NOT_FOUND' | 'NETWORK'
 
 interface GameState {
   words: string[]
+  score: number
   error: GameError | null
 }
 
@@ -11,15 +12,18 @@ type GameAction =
 
 export const initialState: GameState = {
   words: [],
+  score: 0,
   error: null,
 }
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'ADD_WORD': {
+      const word = action.payload
       return {
         ...state,
-        words: [...state.words, action.payload],
+        words: [...state.words, word],
+        score: state.score + word.length,
         error: null,
       }
     }
