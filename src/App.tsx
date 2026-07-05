@@ -14,14 +14,15 @@ export function App() {
     evt.preventDefault()
 
     const word = normalizeWord(value)
+    if (!word) return
 
     if (isWordUsed(word, game.words)) {
-      dispatch({ type: 'SET_ERROR', payload: 'USED' })
+      dispatch({ type: 'SET_ERROR', payload: 'ALREADY_USED' })
       return
     }
 
     if (!followsChain(word, game.words)) {
-      dispatch({ type: 'SET_ERROR', payload: 'CHAIN' })
+      dispatch({ type: 'SET_ERROR', payload: 'INVALID_CHAIN' })
       return
     }
 
@@ -31,14 +32,14 @@ export function App() {
       const exists = await checkWordExists(word)
 
       if (!exists) {
-        dispatch({ type: 'SET_ERROR', payload: 'NOT_FOUND' })
+        dispatch({ type: 'SET_ERROR', payload: 'INVALID_WORD' })
         return
       }
 
       dispatch({ type: 'ADD_WORD', payload: word })
       setValue('')
     } catch {
-      dispatch({ type: 'SET_ERROR', payload: 'NETWORK' })
+      dispatch({ type: 'SET_ERROR', payload: 'SERVER_ERROR' })
     } finally {
       setIsLoading(false)
     }
@@ -83,8 +84,8 @@ export function App() {
 }
 
 const errorMessages = {
-  USED: 'Palabra repetida',
-  CHAIN: 'No encadena con la anterior',
-  NOT_FOUND: 'Palabra no encontrada',
-  NETWORK: 'Error de red. Intenta nuevamente.',
+  ALREADY_USED: 'Palabra repetida',
+  INVALID_CHAIN: 'No encadena con la anterior',
+  INVALID_WORD: 'Palabra no encontrada',
+  SERVER_ERROR: 'Error de red. Intenta nuevamente.',
 } as const

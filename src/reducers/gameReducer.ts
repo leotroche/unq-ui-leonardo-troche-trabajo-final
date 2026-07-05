@@ -1,4 +1,4 @@
-type GameError = 'USED' | 'CHAIN' | 'NOT_FOUND' | 'NETWORK'
+type GameError = 'ALREADY_USED' | 'INVALID_CHAIN' | 'INVALID_WORD' | 'SERVER_ERROR'
 
 interface GameState {
   words: string[]
