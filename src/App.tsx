@@ -1,5 +1,6 @@
 import { useReducer, useState } from 'react'
 
+import { useTimer } from './hooks/useTimer'
 import { gameReducer, initialState } from './reducers/gameReducer'
 import { checkWordExists } from './services/wordService'
 import { followsChain, isWordUsed } from './utils/gameValidations'
@@ -9,6 +10,11 @@ export function App() {
   const [game, dispatch] = useReducer(gameReducer, initialState)
   const [value, setValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  useTimer({
+    enabled: game.status === 'PLAYING',
+    onTick: () => dispatch({ type: 'TICK' }),
+  })
 
   const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -52,6 +58,27 @@ export function App() {
   return (
     <main className="container">
       <h1>Palabras Encadenadas</h1>
+
+      <article>
+        <h2>Palabras usadas</h2>
+        <ul>
+          {game.words.map((word, index) => (
+            <li key={index}>{word}</li>
+          ))}
+        </ul>
+      </article>
+
+      <article style={{ width: '400px' }}>
+        <p>
+          <strong>Estado:</strong> {game.status}
+        </p>
+        <p>
+          <strong>Tiempo restante:</strong> {game.timeLeft} segundos
+        </p>
+        <p>
+          <strong>Puntaje:</strong> {game.score}
+        </p>
+      </article>
 
       <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '800px' }}>
         <input
