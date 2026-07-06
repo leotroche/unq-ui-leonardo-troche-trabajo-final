@@ -1,8 +1,8 @@
-type GameStatus = 'IDLE' | 'PLAYING' | 'GAME_OVER'
+export type GameStatus = 'IDLE' | 'PLAYING' | 'GAME_OVER'
 
-type GameError = 'ALREADY_USED' | 'INVALID_CHAIN' | 'INVALID_WORD' | 'SERVER_ERROR'
+export type GameError = 'ALREADY_USED' | 'INVALID_CHAIN' | 'INVALID_WORD' | 'SERVER_ERROR'
 
-interface GameState {
+export interface GameState {
   status: GameStatus
   words: string[]
   score: number
