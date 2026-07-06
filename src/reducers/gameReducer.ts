@@ -16,25 +16,34 @@ type GameAction =
   | { type: 'TICK' }
   | { type: 'RESET_GAME' }
 
+// --------------------------------------------------------------------------------
+
+const TURN_TIME = 15
+
 export const initialState: GameState = {
   status: 'IDLE',
   words: [],
   score: 0,
-  timeLeft: 15,
+  timeLeft: TURN_TIME,
   error: null,
 }
+
+// --------------------------------------------------------------------------------
 
 export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'ADD_WORD': {
+      if (state.status === 'GAME_OVER') {
+        return state
+      }
       const word = action.payload
       return {
         ...state,
         status: 'PLAYING',
         words: [...state.words, word],
         score: state.score + word.length,
+        timeLeft: TURN_TIME,
         error: null,
-        timeLeft: 15,
       }
     }
     case 'SET_ERROR': {
@@ -44,11 +53,14 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
       }
     }
     case 'TICK': {
-      const nextTimeLeft = state.timeLeft - 1
+      if (state.status !== 'PLAYING') {
+        return state
+      }
+      const nextTime = Math.max(0, state.timeLeft - 1)
       return {
         ...state,
-        status: nextTimeLeft <= 0 ? 'GAME_OVER' : state.status,
-        timeLeft: Math.max(0, nextTimeLeft),
+        timeLeft: nextTime,
+        status: nextTime > 0 ? 'PLAYING' : 'GAME_OVER',
       }
     }
     case 'RESET_GAME': {
