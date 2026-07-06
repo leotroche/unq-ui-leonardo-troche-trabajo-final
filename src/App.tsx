@@ -1,5 +1,8 @@
 import { useReducer, useState } from 'react'
 
+import { GameStats } from './components/GameStats'
+import { WordForm } from './components/WordForm'
+import { WordList } from './components/WordList'
 import { useTimer } from './hooks/useTimer'
 import { gameReducer, initialState } from './reducers/gameReducer'
 import { checkWordExists } from './services/wordService'
@@ -57,62 +60,18 @@ export function App() {
 
   return (
     <main className="container">
-      <h1>Palabras Encadenadas</h1>
+      <WordList words={game.words} />
 
-      <article>
-        <h2>Palabras usadas</h2>
-        <ul>
-          {game.words.map((word, index) => (
-            <li key={index}>{word}</li>
-          ))}
-        </ul>
-      </article>
+      <GameStats status={game.status} score={game.score} timeLeft={game.timeLeft} />
 
-      <article style={{ width: '400px' }}>
-        <p>
-          <strong>Estado:</strong> {game.status}
-        </p>
-        <p>
-          <strong>Tiempo restante:</strong> {game.timeLeft} segundos
-        </p>
-        <p>
-          <strong>Puntaje:</strong> {game.score}
-        </p>
-      </article>
-
-      <form onSubmit={handleSubmit} style={{ width: '100%', maxWidth: '800px' }}>
-        <input
-          name="word"
-          type="text"
-          placeholder="Escribe una palabra"
-          value={value}
-          onChange={handleChange}
-          autoFocus
-          autoCapitalize="none"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck="false"
-          aria-describedby="word-helper"
-          aria-invalid={game.error ? 'true' : undefined}
-        />
-
-        {game.error && (
-          <small id="word-helper" style={{ minHeight: '1.5rem' }}>
-            {errorMessages[game.error]}
-          </small>
-        )}
-
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? 'Validando...' : 'Enviar'}
-        </button>
-      </form>
+      <WordForm
+        value={value}
+        error={game.error}
+        isLoading={isLoading}
+        disabled={game.status === 'GAME_OVER'}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+      />
     </main>
   )
 }
-
-const errorMessages = {
-  ALREADY_USED: 'Palabra repetida',
-  INVALID_CHAIN: 'No encadena con la anterior',
-  INVALID_WORD: 'Palabra no encontrada',
-  SERVER_ERROR: 'Error de red. Intenta nuevamente.',
-} as const
