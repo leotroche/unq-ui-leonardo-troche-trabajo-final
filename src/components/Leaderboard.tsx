@@ -1,41 +1,44 @@
-import type { LeaderboardEntry } from '../hooks/useLeaderboard'
+import type { LeaderboardEntry } from '../types/leaderboard'
 
 interface LeaderboardProps {
   scores: LeaderboardEntry[]
 }
 
+const POSITION_EMOJIS = ['❶', '❷', '❸', '❹', '❺', '❻', '❼', '❽', '❾', '❿'] as const
+const getPositionLabel = (index: number) => POSITION_EMOJIS[index] ?? index + 1
+
 export function Leaderboard({ scores }: LeaderboardProps) {
+  const hasScores = scores.length > 0
+
   return (
-    <section>
-      <h2>Leaderboard</h2>
+    <table className="striped">
+      <thead>
+        <tr>
+          <th scope="col">Posición</th>
+          <th scope="col">Nombre</th>
+          <th scope="col">Puntaje</th>
+          <th scope="col">Palabras</th>
+        </tr>
+      </thead>
 
-      <table>
-        <thead>
+      <tbody>
+        {!hasScores && (
           <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Puntaje</th>
-            <th>Palabras</th>
+            <td colSpan={4} className="text-center">
+              No hay puntajes para mostrar.
+            </td>
           </tr>
-        </thead>
+        )}
 
-        <tbody>
-          {scores.length === 0 ? (
-            <tr>
-              <td colSpan={4}>Todavía no hay puntajes.</td>
-            </tr>
-          ) : (
-            scores.map((entry, index) => (
-              <tr key={`${entry.name}-${entry.score}-${index}`}>
-                <td>{index + 1}</td>
-                <td>{entry.name}</td>
-                <td>{entry.score}</td>
-                <td>{entry.words}</td>
-              </tr>
-            ))
-          )}
-        </tbody>
-      </table>
-    </section>
+        {scores.map((entry, index) => (
+          <tr key={`${entry.name}-${entry.score}-${index}`}>
+            <th scope="row">{getPositionLabel(index)}</th>
+            <td>{entry.name}</td>
+            <td>{entry.score}</td>
+            <td>{entry.words}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   )
 }
