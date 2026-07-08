@@ -1,34 +1,25 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-const STORAGE_KEY = 'leaderboard'
+import { loadLeaderboard, saveLeaderboard } from '../services/leaderboardStorage'
+import type { LeaderboardEntry } from '../types/leaderboard'
+
 const MAX_ENTRIES = 10
 
-export interface LeaderboardEntry {
-  name: string
-  score: number
-  words: number
+const rankLeaderboard = (entries: LeaderboardEntry[]): LeaderboardEntry[] => {
+  return entries.toSorted((a, b) => b.score - a.score).slice(0, MAX_ENTRIES)
 }
 
 export function useLeaderboard() {
-  const [scores, setScores] = useState<LeaderboardEntry[]>([])
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY)
-
-      if (!stored) return
-
-      setScores(JSON.parse(stored))
-    } catch {
-      localStorage.removeItem(STORAGE_KEY)
-    }
-  }, [])
+  const [scores, setScores] = useState<LeaderboardEntry[]>(() => rankLeaderboard(loadLeaderboard()))
 
   const saveScore = (entry: LeaderboardEntry) => {
-    const updated = [...scores, entry].sort((a, b) => b.score - a.score).slice(0, MAX_ENTRIES)
+    setScores((prev) => {
+      const updated = rankLeaderboard([...prev, entry])
 
-    setScores(updated)
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
+      saveLeaderboard(updated)
+
+      return updated
+    })
   }
 
   return {
