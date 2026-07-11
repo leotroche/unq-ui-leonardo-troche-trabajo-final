@@ -1,23 +1,20 @@
 interface GameStatsProps {
-  status: string
   score: number
   timeLeft: number
 }
 
-export function GameStats({ status, score, timeLeft }: GameStatsProps) {
+export function GameStats({ score, timeLeft }: GameStatsProps) {
   return (
-    <article>
-      <p>
-        <strong>Estado:</strong> {status}
-      </p>
+    <div className="game-stats">
+      <div>
+        <span>Puntaje</span>
+        <strong>{score}</strong>
+      </div>
 
-      <p>
-        <strong>Tiempo restante:</strong> {timeLeft} segundos
-      </p>
-
-      <p>
-        <strong>Puntaje:</strong> {score}
-      </p>
-    </article>
+      <div>
+        <span>Tiempo</span>
+        <strong>{timeLeft}</strong>
+      </div>
+    </div>
   )
 }
