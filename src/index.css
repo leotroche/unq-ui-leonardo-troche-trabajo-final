@@ -1,12 +1,109 @@
 @import '@picocss/pico';
 
+html,
 body {
-  display: grid;
-  min-height: 100dvh;
+  height: 100%;
+  overflow: hidden;
 }
 
-main {
-  height: 100%;
+:root {
+  --color-card: #181c25;
+}
+
+/* ------------------------------------------------------------ */
+
+button[type='button'] {
+  cursor: pointer;
+  margin: 0;
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+input[type='text'][aria-invalid='true'] {
+  animation: shake 300ms ease-in-out;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  20%,
+  60% {
+    transform: translate3d(-6px, 0, 0);
+  }
+  40%,
+  80% {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+/* ------------------------------------------------------------ */
+
+.layout {
   display: grid;
-  place-items: center;
+  grid-template-rows: 80px 1fr 200px;
+  height: 100dvh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main {
+  margin-block: auto;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------------------------------------ */
+
+.stats {
+  display: flex;
+  gap: 1rem;
+}
+
+.stats > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ------------------------------------------------------------ */
+
+.word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+
+  margin: 0;
+  padding: 0;
+
+  height: 100%;
+  overflow-y: auto;
+}
+
+.word-list li {
+  list-style: none;
+}
+
+/* ------------------------------------------------------------ */
+
+.game-over {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.save-score-form fieldset,
+.save-score-form input {
+  min-height: 100%;
 }
