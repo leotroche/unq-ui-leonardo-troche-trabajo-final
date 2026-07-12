@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react'
 
-import { useLeaderboard } from '../hooks/useLeaderboard'
+import type { LeaderboardEntry } from '../types/leaderboard'
 import { Leaderboard } from './Leaderboard'
 
 interface LeaderboardDialogProps {
   open: boolean
   onClose: () => void
+  scores: LeaderboardEntry[]
 }
 
-export function LeaderboardDialog({ open, onClose }: LeaderboardDialogProps) {
-  const { scores } = useLeaderboard()
+export function LeaderboardDialog({ open, onClose, scores }: LeaderboardDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
