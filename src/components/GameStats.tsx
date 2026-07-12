@@ -5,7 +5,7 @@ interface GameStatsProps {
 
 export function GameStats({ score, timeLeft }: GameStatsProps) {
   return (
-    <div className="game-stats">
+    <div className="stats">
       <div>
         <span>Puntaje</span>
         <strong>{score}</strong>
