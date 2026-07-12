@@ -5,6 +5,7 @@ import type { GameError } from '../reducers/gameReducer'
 interface WordFormProps {
   value: string
   error: GameError | null
+  lastWord?: string
   isLoading: boolean
   disabled: boolean
   onChange: ChangeEventHandler<HTMLInputElement>
@@ -18,32 +19,46 @@ const errorMessages: Record<GameError, string> = {
   SERVER_ERROR: 'Error de red. Intenta nuevamente.',
 }
 
-export function WordForm({ value, error, isLoading, disabled, onChange, onSubmit }: WordFormProps) {
+export function WordForm({
+  value,
+  error,
+  lastWord,
+  isLoading,
+  disabled,
+  onChange,
+  onSubmit,
+}: WordFormProps) {
+  const isDisabled = disabled || isLoading
+
   return (
-    <form onSubmit={onSubmit} style={{ width: 600 }}>
-      <input
-        name="word"
-        type="text"
-        placeholder="Escribe una palabra"
-        value={value}
-        onChange={onChange}
-        autoFocus
-        autoCapitalize="none"
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck={false}
-        aria-describedby="word-helper"
-        aria-invalid={error ? true : undefined}
-        disabled={disabled}
-      />
+    <form onSubmit={onSubmit}>
+      {lastWord && <p>Última palabra: {lastWord}</p>}
+
+      <fieldset role="group">
+        <input
+          name="word"
+          type="text"
+          placeholder="Escribe una palabra"
+          value={value}
+          onChange={onChange}
+          autoFocus
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          aria-describedby="word-helper"
+          aria-invalid={error ? true : undefined}
+          disabled={isDisabled}
+        />
+
+        <button type="submit" disabled={isDisabled}>
+          {isLoading ? 'Validando...' : 'Enviar'}
+        </button>
+      </fieldset>
 
       <small id="word-helper" style={{ minHeight: '1.5rem' }}>
         {error ? errorMessages[error] : null}
       </small>
-
-      <button type="submit" disabled={disabled || isLoading}>
-        {isLoading ? 'Validando...' : 'Enviar'}
-      </button>
     </form>
   )
 }

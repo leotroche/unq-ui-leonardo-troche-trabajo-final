@@ -2,9 +2,10 @@ import { useReducer, useState } from 'react'
 
 import { GameOver } from './components/GameOver'
 import { GameStats } from './components/GameStats'
-import { LeaderboardModal } from './components/LeaderboardModal'
+import { LeaderboardDialog } from './components/LeaderboardDialog'
 import { WordForm } from './components/WordForm'
 import { WordList } from './components/WordList'
+import { useLeaderboard } from './hooks/useLeaderboard'
 import { useTimer } from './hooks/useTimer'
 import { gameReducer, initialState } from './reducers/gameReducer'
 import { checkWordExists } from './services/wordService'
@@ -16,6 +17,8 @@ export function App() {
   const [value, setValue] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isLeaderboardOpen, setIsLeaderboardOpen] = useState(false)
+
+  const { scores, saveScore } = useLeaderboard()
 
   useTimer({
     enabled: game.status === 'PLAYING',
@@ -66,34 +69,59 @@ export function App() {
     setValue('')
   }
 
+  const handleSaveScore = (name: string) => {
+    saveScore({ name, score: game.score, words: game.words.length })
+  }
+
+  const isGameOver = game.status === 'GAME_OVER'
+  const lastWord = game.words[game.words.length - 1]
+
   return (
-    <main className="container">
-      <h1>Palabras Encadenadas</h1>
+    <div className="container layout">
+      <header className="header">
+        <GameStats score={game.score} timeLeft={game.timeLeft} />
 
-      <button onClick={() => setIsLeaderboardOpen(true)}>Ver leaderboard</button>
+        <button
+          type="button"
+          className="secondary"
+          disabled={game.status === 'PLAYING'}
+          onClick={() => setIsLeaderboardOpen(true)}
+        >
+          Tabla de posiciones
+        </button>
+      </header>
 
-      <WordList words={game.words} />
+      <main className="main">
+        {isGameOver ? (
+          <GameOver
+            score={game.score}
+            wordsCount={game.words.length}
+            onRestart={handleRestart}
+            onSaveScore={handleSaveScore}
+          />
+        ) : (
+          <WordForm
+            value={value}
+            error={game.error}
+            lastWord={lastWord}
+            isLoading={isLoading}
+            disabled={isGameOver}
+            onChange={handleChange}
+            onSubmit={handleSubmit}
+          />
+        )}
+      </main>
 
-      <GameStats status={game.status} score={game.score} timeLeft={game.timeLeft} />
+      <footer className="footer">
+        <p>Palabras ingresadas</p>
+        <WordList words={game.words} />
+      </footer>
 
-      <WordForm
-        value={value}
-        error={game.error}
-        isLoading={isLoading}
-        disabled={game.status === 'GAME_OVER'}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-      />
-
-      {game.status === 'GAME_OVER' && (
-        <GameOver score={game.score} wordsCount={game.words.length} onRestart={handleRestart} />
-      )}
-
-      <LeaderboardModal
+      <LeaderboardDialog
         open={isLeaderboardOpen}
-        scores={[]}
         onClose={() => setIsLeaderboardOpen(false)}
+        scores={scores}
       />
-    </main>
+    </div>
   )
 }
