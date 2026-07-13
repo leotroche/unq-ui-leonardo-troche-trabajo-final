@@ -1,4 +1,4 @@
-import type { ChangeEventHandler, SubmitEventHandler } from 'react'
+import { useEffect, useRef, type ChangeEventHandler, type SubmitEventHandler } from 'react'
 
 import type { GameError } from '../reducers/gameReducer'
 
@@ -7,7 +7,6 @@ interface WordFormProps {
   error: GameError | null
   lastWord?: string
   isLoading: boolean
-  disabled: boolean
   onChange: ChangeEventHandler<HTMLInputElement>
   onSubmit: SubmitEventHandler<HTMLFormElement>
 }
@@ -19,16 +18,16 @@ const errorMessages: Record<GameError, string> = {
   SERVER_ERROR: 'Error de red. Intenta nuevamente.',
 }
 
-export function WordForm({
-  value,
-  error,
-  lastWord,
-  isLoading,
-  disabled,
-  onChange,
-  onSubmit,
-}: WordFormProps) {
-  const isDisabled = disabled || isLoading
+export function WordForm({ value, error, lastWord, isLoading, onChange, onSubmit }: WordFormProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const isButtonDisabled = isLoading || !value.trim()
+
+  useEffect(() => {
+    if (!isLoading) {
+      inputRef.current?.focus()
+    }
+  }, [isLoading, value, error])
 
   return (
     <form onSubmit={onSubmit} className="word-form">
@@ -38,22 +37,23 @@ export function WordForm({
 
       <fieldset role="group">
         <input
+          ref={inputRef}
           name="word"
           type="text"
           placeholder="Escribe una palabra"
           value={value}
           onChange={onChange}
-          autoFocus
           autoCapitalize="none"
           autoComplete="off"
           autoCorrect="off"
           spellCheck={false}
           aria-describedby="word-helper"
           aria-invalid={error ? true : undefined}
-          disabled={isDisabled}
+          disabled={isLoading}
+          maxLength={40}
         />
 
-        <button type="submit" disabled={isDisabled}>
+        <button type="submit" disabled={isButtonDisabled}>
           {isLoading ? 'Validando...' : 'Enviar'}
         </button>
       </fieldset>

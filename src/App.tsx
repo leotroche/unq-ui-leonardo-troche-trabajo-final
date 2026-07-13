@@ -109,7 +109,6 @@ export function App() {
             error={game.error}
             lastWord={lastWord}
             isLoading={isLoading}
-            disabled={isGameOver}
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
