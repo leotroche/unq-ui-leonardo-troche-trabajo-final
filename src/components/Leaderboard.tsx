@@ -25,7 +25,7 @@ export function Leaderboard({ scores }: LeaderboardProps) {
         {!hasScores && (
           <tr>
             <td colSpan={4} className="text-center">
-              No hay puntajes para mostrar.
+              No hay puntajes para mostrar
             </td>
           </tr>
         )}
