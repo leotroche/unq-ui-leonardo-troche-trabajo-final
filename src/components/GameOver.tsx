@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { SaveScoreForm } from './SaveScoreForm'
 
 interface GameOverProps {
@@ -8,6 +10,13 @@ interface GameOverProps {
 }
 
 export function GameOver({ score, wordsCount, onRestart, onSaveScore }: GameOverProps) {
+  const [saved, setSaved] = useState(false)
+
+  const handleSave = (name: string) => {
+    onSaveScore(name)
+    setSaved(true)
+  }
+
   return (
     <section className="game-over">
       <h2>¡Fin de la partida!</h2>
@@ -20,7 +29,11 @@ export function GameOver({ score, wordsCount, onRestart, onSaveScore }: GameOver
         <span>Puntaje final:</span> <strong>{score}</strong>
       </p>
 
-      <SaveScoreForm onSave={onSaveScore} />
+      {saved ? (
+        <p className="success-message">Puntaje guardado correctamente</p>
+      ) : (
+        <SaveScoreForm onSave={handleSave} />
+      )}
 
       <button type="button" className="secondary" onClick={onRestart}>
         Jugar nuevamente

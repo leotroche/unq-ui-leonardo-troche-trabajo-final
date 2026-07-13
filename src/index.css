@@ -7,10 +7,13 @@ body {
 }
 
 :root {
-  --color-card: #181c25;
+  --color-success: #4caf50;
+  --color-error: #f44336;
 }
 
-/* ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+ * Global styles
+ * ------------------------------------------------------------ */
 
 button[type='button'] {
   cursor: pointer;
@@ -40,7 +43,9 @@ input[type='text'][aria-invalid='true'] {
   }
 }
 
-/* ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+ * App.tsx
+ * ------------------------------------------------------------ */
 
 .layout {
   display: grid;
@@ -63,7 +68,9 @@ input[type='text'][aria-invalid='true'] {
   flex-direction: column;
 }
 
-/* ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+ * GameStats.tsx
+ * ------------------------------------------------------------ */
 
 .stats {
   display: flex;
@@ -76,7 +83,9 @@ input[type='text'][aria-invalid='true'] {
   align-items: center;
 }
 
-/* ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+ * WordList.tsx
+ * ------------------------------------------------------------ */
 
 .word-list {
   display: flex;
@@ -94,7 +103,9 @@ input[type='text'][aria-invalid='true'] {
   list-style: none;
 }
 
-/* ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+ * GameOver.tsx
+ * ------------------------------------------------------------ */
 
 .game-over {
   display: flex;
@@ -103,7 +114,24 @@ input[type='text'][aria-invalid='true'] {
   align-items: center;
 }
 
-.save-score-form fieldset,
-.save-score-form input {
-  min-height: 100%;
+.game-over .success-message {
+  color: var(--color-success);
+}
+
+/* ------------------------------------------------------------
+ * SaveScoreForm.tsx
+ * ------------------------------------------------------------ */
+
+.save-score-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  width: 100%;
+  max-width: 32rem;
+}
+
+.save-score-form label {
+  margin: 0;
 }
