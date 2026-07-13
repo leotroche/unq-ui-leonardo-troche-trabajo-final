@@ -8,7 +8,7 @@ import { useTimer } from './useTimer'
 
 export function useGame() {
   const [game, dispatch] = useReducer(gameReducer, initialState)
-  const [value, setValue] = useState('')
+  const [word, setWord] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   useTimer({
@@ -19,19 +19,19 @@ export function useGame() {
   const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
-    const word = normalizeWord(value)
-    if (!word) return
+    const normalizedWord = normalizeWord(word)
+    if (!normalizedWord) return
 
     if (game.status === 'IDLE') {
       dispatch({ type: 'START_GAME' })
     }
 
-    if (isWordUsed(word, game.words)) {
+    if (isWordUsed(normalizedWord, game.words)) {
       dispatch({ type: 'SET_ERROR', payload: 'ALREADY_USED' })
       return
     }
 
-    if (!followsChain(word, game.words)) {
+    if (!followsChain(normalizedWord, game.words)) {
       dispatch({ type: 'SET_ERROR', payload: 'INVALID_CHAIN' })
       return
     }
@@ -39,15 +39,15 @@ export function useGame() {
     setIsLoading(true)
 
     try {
-      const exists = await checkWordExists(word)
+      const exists = await checkWordExists(normalizedWord)
 
       if (!exists) {
         dispatch({ type: 'SET_ERROR', payload: 'INVALID_WORD' })
         return
       }
 
-      dispatch({ type: 'ADD_WORD', payload: word })
-      setValue('')
+      dispatch({ type: 'ADD_WORD', payload: normalizedWord })
+      setWord('')
     } catch {
       dispatch({ type: 'SET_ERROR', payload: 'SERVER_ERROR' })
     } finally {
@@ -56,20 +56,20 @@ export function useGame() {
   }
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(evt.target.value)
+    setWord(evt.target.value)
   }
 
-  const handleRestart = () => {
+  const handleReset = () => {
     dispatch({ type: 'RESET_GAME' })
-    setValue('')
+    setWord('')
   }
 
   return {
     game,
-    value,
+    word,
     isLoading,
     handleSubmit,
     handleChange,
-    handleRestart,
+    handleReset,
   }
 }

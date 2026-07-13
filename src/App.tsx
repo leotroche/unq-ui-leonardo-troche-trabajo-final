@@ -9,7 +9,7 @@ import { useGame } from './hooks/useGame'
 import { useLeaderboard } from './hooks/useLeaderboard'
 
 export function App() {
-  const { game, value, isLoading, handleChange, handleSubmit, handleRestart } = useGame()
+  const { game, word, isLoading, handleChange, handleSubmit, handleReset } = useGame()
 
   const { scores, saveScore } = useLeaderboard()
 
@@ -46,12 +46,12 @@ export function App() {
           <GameOver
             score={game.score}
             wordsCount={game.words.length}
-            onRestart={handleRestart}
+            onReset={handleReset}
             onSaveScore={handleSaveScore}
           />
         ) : (
           <WordForm
-            value={value}
+            value={word}
             error={game.error}
             lastWord={lastWord}
             isLoading={isLoading}

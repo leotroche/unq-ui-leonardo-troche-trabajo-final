@@ -5,11 +5,11 @@ import { SaveScoreForm } from './SaveScoreForm'
 interface GameOverProps {
   score: number
   wordsCount: number
-  onRestart: () => void
+  onReset: () => void
   onSaveScore: (name: string) => void
 }
 
-export function GameOver({ score, wordsCount, onRestart, onSaveScore }: GameOverProps) {
+export function GameOver({ score, wordsCount, onReset, onSaveScore }: GameOverProps) {
   const [saved, setSaved] = useState(false)
 
   const handleSave = (name: string) => {
@@ -35,7 +35,7 @@ export function GameOver({ score, wordsCount, onRestart, onSaveScore }: GameOver
         <SaveScoreForm onSave={handleSave} />
       )}
 
-      <button type="button" className="secondary" onClick={onRestart}>
+      <button type="button" className="secondary" onClick={onReset}>
         Jugar nuevamente
       </button>
     </section>
