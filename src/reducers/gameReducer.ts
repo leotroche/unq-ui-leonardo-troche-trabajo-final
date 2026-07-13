@@ -14,6 +14,7 @@ type GameAction =
   | { type: 'ADD_WORD'; payload: string }
   | { type: 'SET_ERROR'; payload: GameError }
   | { type: 'TICK' }
+  | { type: 'START_GAME' }
   | { type: 'RESET_GAME' }
 
 // --------------------------------------------------------------------------------
@@ -61,6 +62,12 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         ...state,
         timeLeft: nextTime,
         status: nextTime > 0 ? 'PLAYING' : 'GAME_OVER',
+      }
+    }
+    case 'START_GAME': {
+      return {
+        ...initialState,
+        status: 'PLAYING',
       }
     }
     case 'RESET_GAME': {

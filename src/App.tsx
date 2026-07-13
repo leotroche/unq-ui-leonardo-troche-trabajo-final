@@ -31,6 +31,10 @@ export function App() {
     const word = normalizeWord(value)
     if (!word) return
 
+    if (game.status === 'IDLE') {
+      dispatch({ type: 'START_GAME' })
+    }
+
     if (isWordUsed(word, game.words)) {
       dispatch({ type: 'SET_ERROR', payload: 'ALREADY_USED' })
       return
