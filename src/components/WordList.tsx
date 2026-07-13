@@ -4,10 +4,14 @@ interface WordListProps {
 
 export function WordList({ words }: WordListProps) {
   return (
-    <ul className="word-list">
-      {words.map((word) => (
-        <li key={word}>{word}</li>
-      ))}
-    </ul>
+    <section className="word-list">
+      <h2>Palabras ingresadas</h2>
+
+      <ul>
+        {words.map((word) => (
+          <li key={word}>{word}</li>
+        ))}
+      </ul>
+    </section>
   )
 }

@@ -62,7 +62,6 @@ export function App() {
       </main>
 
       <footer className="footer">
-        <p>Palabras ingresadas</p>
         <WordList words={game.words} />
       </footer>
 
