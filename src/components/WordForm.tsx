@@ -27,7 +27,7 @@ export function WordForm({ value, error, lastWord, isLoading, onChange, onSubmit
     if (!isLoading) {
       inputRef.current?.focus()
     }
-  }, [isLoading, value, error])
+  }, [isLoading])
 
   return (
     <form onSubmit={onSubmit} className="word-form">

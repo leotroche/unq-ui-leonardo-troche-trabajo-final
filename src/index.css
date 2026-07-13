@@ -147,5 +147,5 @@ button[type='button'] {
 
 .word-form .word-helper {
   min-height: 1.5rem;
-  color: var(--pico-form-element-invalid-active-border-color);
+  color: var(--color-error);
 }
