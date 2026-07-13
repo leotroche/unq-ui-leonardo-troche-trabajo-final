@@ -31,8 +31,10 @@ export function WordForm({
   const isDisabled = disabled || isLoading
 
   return (
-    <form onSubmit={onSubmit}>
-      {lastWord && <p>Última palabra: {lastWord}</p>}
+    <form onSubmit={onSubmit} className="word-form">
+      <p>
+        Última palabra: <strong>{lastWord ?? '—'}</strong>
+      </p>
 
       <fieldset role="group">
         <input
@@ -56,7 +58,7 @@ export function WordForm({
         </button>
       </fieldset>
 
-      <small id="word-helper" style={{ minHeight: '1.5rem' }}>
+      <small id="word-helper" className="word-helper">
         {error ? errorMessages[error] : null}
       </small>
     </form>
