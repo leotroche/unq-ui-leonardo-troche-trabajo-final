@@ -11,10 +11,14 @@ export function useGame() {
   const [word, setWord] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
+  // --------------------------------------------------------------------------------
+
   useTimer({
     enabled: game.status === 'PLAYING',
     onTick: () => dispatch({ type: 'TICK' }),
   })
+
+  // --------------------------------------------------------------------------------
 
   const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault()
@@ -55,14 +59,20 @@ export function useGame() {
     }
   }
 
+  // --------------------------------------------------------------------------------
+
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setWord(evt.target.value)
   }
+
+  // --------------------------------------------------------------------------------
 
   const handleReset = () => {
     dispatch({ type: 'RESET_GAME' })
     setWord('')
   }
+
+  // --------------------------------------------------------------------------------
 
   return {
     game,
