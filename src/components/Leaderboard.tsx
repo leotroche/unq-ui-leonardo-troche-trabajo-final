@@ -31,7 +31,7 @@ export function Leaderboard({ scores }: LeaderboardProps) {
         )}
 
         {scores.map((entry, index) => (
-          <tr key={`${entry.name}-${entry.score}-${index}`}>
+          <tr key={`${entry.name}-${entry.score}-${entry.words}-${index}`}>
             <th scope="row">{getPositionLabel(index)}</th>
             <td>{entry.name}</td>
             <td>{entry.score}</td>
