@@ -15,7 +15,6 @@ type GameAction =
   | { type: 'SET_ERROR'; payload: GameError }
   | { type: 'CLEAR_ERROR' }
   | { type: 'TICK' }
-  | { type: 'START_GAME' }
   | { type: 'RESET_GAME' }
 
 // --------------------------------------------------------------------------------
@@ -88,15 +87,6 @@ export function gameReducer(state: GameState, action: GameAction): GameState {
         timeLeft: nextTime,
         status: isGameOver ? 'GAME_OVER' : 'PLAYING',
         error: isGameOver ? null : state.error,
-      }
-    }
-
-    // ----------------------------------------
-
-    case 'START_GAME': {
-      return {
-        ...initialState,
-        status: 'PLAYING',
       }
     }
 
