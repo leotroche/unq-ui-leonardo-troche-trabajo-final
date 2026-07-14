@@ -63,6 +63,10 @@ export function useGame() {
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setWord(evt.target.value)
+
+    if (game.error) {
+      dispatch({ type: 'CLEAR_ERROR' })
+    }
   }
 
   // --------------------------------------------------------------------------------
