@@ -12,9 +12,9 @@ interface WordFormProps {
 }
 
 const errorMessages: Record<GameError, string> = {
-  ALREADY_USED: 'Palabra repetida',
-  INVALID_CHAIN: 'No encadena con la anterior',
-  INVALID_WORD: 'Palabra no encontrada',
+  ALREADY_USED: 'La palabra ya fue utilizada.',
+  INVALID_CHAIN: 'La palabra no respeta la cadena.',
+  INVALID_WORD: 'La palabra no existe.',
   SERVER_ERROR: 'Error de red. Intenta nuevamente.',
 }
 
