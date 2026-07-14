@@ -15,6 +15,7 @@ button[type='button'] {
 }
 
 :root {
+  --color-primary: #017fc0;
   --color-success: #4caf50;
   --color-error: #f44336;
 }
@@ -37,6 +38,14 @@ button[type='button'] {
 
 .main {
   margin-block: auto;
+}
+
+.title {
+  font-weight: 900;
+  text-align: center;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
 }
 
 .footer {
