@@ -1,6 +1,6 @@
 import type { LeaderboardEntry } from '../types/leaderboard'
 
-const STORAGE_KEY = 'leaderboard'
+const STORAGE_KEY = 'palabras-encadenadas-leaderboard'
 
 export function loadLeaderboard(): LeaderboardEntry[] {
   try {

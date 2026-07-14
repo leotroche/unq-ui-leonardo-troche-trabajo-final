@@ -6,7 +6,7 @@ import type { LeaderboardEntry } from '../types/leaderboard'
 const MAX_ENTRIES = 10
 
 const rankLeaderboard = (entries: LeaderboardEntry[]): LeaderboardEntry[] => {
-  return entries.toSorted((a, b) => b.score - a.score).slice(0, MAX_ENTRIES)
+  return [...entries].sort((a, b) => b.score - a.score).slice(0, MAX_ENTRIES)
 }
 
 export function useLeaderboard() {
