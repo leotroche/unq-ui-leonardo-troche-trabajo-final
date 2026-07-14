@@ -6,6 +6,11 @@ body {
   overflow: hidden;
 }
 
+button[type='button'],
+button[type='submit'] {
+  margin: 0;
+}
+
 :root {
   --color-primary: #017fc0;
   --color-success: #4caf50;
@@ -18,7 +23,7 @@ body {
 
 .layout {
   display: grid;
-  grid-template-rows: 80px 1fr 200px;
+  grid-template-rows: 5rem 1fr 10rem;
   height: 100dvh;
 }
 
@@ -28,20 +33,19 @@ body {
   align-items: center;
 }
 
-.header button {
-  margin: 0;
-}
-
 .main {
   margin-block: auto;
 }
 
 .title {
-  font-weight: 900;
   text-align: center;
+  font-weight: 900;
+
   letter-spacing: 0.05em;
   margin-bottom: 1.5rem;
+
   color: var(--color-primary);
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
 }
 
 .footer {
