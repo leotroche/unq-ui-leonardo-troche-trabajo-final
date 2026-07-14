@@ -6,14 +6,6 @@ body {
   overflow: hidden;
 }
 
-button[type='button'] {
-  margin: 0;
-}
-
-.text-center {
-  text-align: center;
-}
-
 :root {
   --color-primary: #017fc0;
   --color-success: #4caf50;
@@ -34,6 +26,10 @@ button[type='button'] {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.header button {
+  margin: 0;
 }
 
 .main {
@@ -161,4 +157,12 @@ button[type='button'] {
 .word-form .word-helper {
   min-height: 1.5rem;
   color: var(--color-error);
+}
+
+/* ------------------------------------------------------------
+ * Leaderboard.tsx
+ * ------------------------------------------------------------ */
+
+.empty-leaderboard {
+  text-align: center;
 }

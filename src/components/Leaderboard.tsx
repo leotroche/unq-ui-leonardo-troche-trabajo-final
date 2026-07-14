@@ -24,7 +24,7 @@ export function Leaderboard({ scores }: LeaderboardProps) {
       <tbody>
         {!hasScores && (
           <tr>
-            <td colSpan={4} className="text-center">
+            <td colSpan={4} className="empty-leaderboard">
               No hay puntajes para mostrar
             </td>
           </tr>
