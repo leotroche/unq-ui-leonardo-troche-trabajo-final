@@ -6,11 +6,13 @@ body {
   overflow: hidden;
 }
 
-button[type='button'] {
+button[type='button'],
+button[type='submit'] {
   margin: 0;
 }
 
 :root {
+  --color-primary: #017fc0;
   --color-success: #4caf50;
   --color-error: #f44336;
 }
@@ -21,7 +23,7 @@ button[type='button'] {
 
 .layout {
   display: grid;
-  grid-template-rows: 80px 1fr 200px;
+  grid-template-rows: 5rem 1fr 10rem;
   height: 100dvh;
 }
 
@@ -33,6 +35,17 @@ button[type='button'] {
 
 .main {
   margin-block: auto;
+}
+
+.title {
+  text-align: center;
+  font-weight: 900;
+
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+
+  color: var(--color-primary);
+  font-size: clamp(1.8rem, 4vw, 2.2rem);
 }
 
 .footer {
@@ -148,4 +161,12 @@ button[type='button'] {
 .word-form .word-helper {
   min-height: 1.5rem;
   color: var(--color-error);
+}
+
+/* ------------------------------------------------------------
+ * Leaderboard.tsx
+ * ------------------------------------------------------------ */
+
+.empty-leaderboard {
+  text-align: center;
 }

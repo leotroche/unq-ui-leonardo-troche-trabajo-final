@@ -26,10 +26,6 @@ export function useGame() {
     const normalizedWord = normalizeWord(word)
     if (!normalizedWord) return
 
-    if (game.status === 'IDLE') {
-      dispatch({ type: 'START_GAME' })
-    }
-
     if (isWordUsed(normalizedWord, game.words)) {
       dispatch({ type: 'SET_ERROR', payload: 'ALREADY_USED' })
       return
@@ -63,6 +59,10 @@ export function useGame() {
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setWord(evt.target.value)
+
+    if (game.error) {
+      dispatch({ type: 'CLEAR_ERROR' })
+    }
   }
 
   // --------------------------------------------------------------------------------

@@ -25,6 +25,7 @@ export function App() {
 
   const isGameOver = game.status === 'GAME_OVER'
   const lastWord = game.words[game.words.length - 1]
+  const hasWords = game.words.length > 0
 
   return (
     <div className="container layout">
@@ -42,6 +43,8 @@ export function App() {
       </header>
 
       <main className="main">
+        <h1 className="title">🔗 Palabras Encadenadas 🔗</h1>
+
         {isGameOver ? (
           <GameOver
             score={game.score}
@@ -61,9 +64,7 @@ export function App() {
         )}
       </main>
 
-      <footer className="footer">
-        <WordList words={game.words} />
-      </footer>
+      <footer className="footer">{hasWords && <WordList words={game.words} />}</footer>
 
       <LeaderboardDialog
         open={isLeaderboardOpen}

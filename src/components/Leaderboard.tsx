@@ -24,14 +24,14 @@ export function Leaderboard({ scores }: LeaderboardProps) {
       <tbody>
         {!hasScores && (
           <tr>
-            <td colSpan={4} className="text-center">
-              No hay puntajes para mostrar.
+            <td colSpan={4} className="empty-leaderboard">
+              No hay puntajes para mostrar
             </td>
           </tr>
         )}
 
         {scores.map((entry, index) => (
-          <tr key={`${entry.name}-${entry.score}-${index}`}>
+          <tr key={`${entry.name}-${entry.score}-${entry.words}-${index}`}>
             <th scope="row">{getPositionLabel(index)}</th>
             <td>{entry.name}</td>
             <td>{entry.score}</td>
