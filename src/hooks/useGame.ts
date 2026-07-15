@@ -23,6 +23,8 @@ export function useGame() {
   const handleSubmit = async (evt: React.SubmitEvent<HTMLFormElement>) => {
     evt.preventDefault()
 
+    if (isLoading) return
+
     const normalizedWord = normalizeWord(word)
     if (!normalizedWord) return
 
